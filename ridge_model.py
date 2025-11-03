@@ -3,6 +3,7 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import RidgeCV
 
 
 # Load data
@@ -14,7 +15,7 @@ train.dropna(inplace=True)
 print(train.head())
 
 # Separate features (X) and target (y)
-# Assuming 'forward_returns' is the value you're trying to predict
+# 'forward_returns' is the value we're trying to predict
 X = train.drop(columns=["forward_returns"])
 y = train["forward_returns"]
 
@@ -47,14 +48,9 @@ for a in [0.01, 0.1, 1, 10, 100]:
     print(f"alpha={a}, MSE={mse:.10f}")
 
 # Compare first few predictions with actual values
-# comparison = pd.DataFrame({
-#     "Actual": y_val.values[:10],
-#     "Predicted": y_pred[:10]
-# })
+# comparison = pd.DataFrame({"Actual": y_val.values[:10], "Predicted": y_pred[:10]})
 # print(comparison)
 
-
-from sklearn.linear_model import RidgeCV
 
 # Perform Ridge regression with cross-validation
 ridge_cv = RidgeCV(alphas=[0.001, 0.01, 0.1, 1, 10, 100], cv=5, scoring='neg_mean_squared_error')
